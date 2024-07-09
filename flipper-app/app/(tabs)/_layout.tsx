@@ -1,10 +1,53 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
+import { Gesture, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const Layout = () => {
   return (
-    <Tabs>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+        <Tabs>
 
-    </Tabs>
+            <Tabs.Screen 
+                name="ChatList"
+                options={{
+                    title: 'Chats',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialIcons name="chat" color={color} size={size} />
+                    ),
+                }} 
+            />
+
+            <Tabs.Screen 
+                name="Home"
+                options={{
+                    title: 'Home',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialIcons name="home" color={color} size={size} />
+                    ),
+                }}  
+            />
+
+            <Tabs.Screen 
+                name="Challenges"
+                options={{
+                    title: 'Challenges',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialIcons name="star" color={color} size={size} />
+                    ),
+                }}
+            />
+
+            <Tabs.Screen 
+                name="Profile" 
+                options={{
+                    title: 'Profile',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialIcons name="person" color={color} size={size} />
+                    ),
+                }}
+            />
+        </Tabs>
+    </GestureHandlerRootView>
   );
 };
 
