@@ -3,6 +3,8 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, ActivityInd
 import Colors from '@/constants/Colors';
 import { Link } from 'expo-router';
 import logo from '@/assets/images/Logo.png';
+import { FLIPPER_AUTH } from '../../firebaseConfig'; 
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const Page = () => {
 
@@ -11,6 +13,24 @@ const Page = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const auth = FLIPPER_AUTH;
+
+    const handleSignup = async () => {
+        if (password !== confirmPassword) {
+          alert('Passwords do not match');
+          return;
+        }
+  
+        setLoading(true);
+        try {
+          const response = await createUserWithEmailAndPassword(auth, email, password);
+          alert('Sign up successful ' + response.message);
+        } catch (error) {
+          alert('Sign up failed ' + error.message);
+        } finally {
+          setLoading(false);
+        }
+      };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -66,7 +86,7 @@ const Page = () => {
                 <ActivityIndicator size="large" color={Colors.white} /> 
               ) : (
                 <>
-                  <TouchableOpacity style={styles.button} >
+                  <TouchableOpacity style={styles.button} onPress={handleSignup}>
                     <Text style={styles.buttonText}>Sign Up</Text>
                   </TouchableOpacity>
 

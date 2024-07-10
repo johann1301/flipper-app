@@ -3,11 +3,10 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { router, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
-
-// Hardcoded user variable for testing
-const user = false;
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { FLIPPER_AUTH } from '../firebaseConfig';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -23,6 +22,8 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
+  const [user, setUser] = useState<User | null>(null);
+
   useEffect(() => {
     if (error) throw error;
   }, [error]);
@@ -34,6 +35,14 @@ export default function RootLayout() {
   }, [loaded]);
 
   useEffect(() => {
+    const unsubscribe = onAuthStateChanged(FLIPPER_AUTH, (user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
     if (loaded) {
       if (user) {
         router.replace('/(tabs)/Home');
@@ -41,7 +50,7 @@ export default function RootLayout() {
         router.replace('/(auth)/Login');
       }
     }
-  }, [loaded]);
+  }, [loaded, user]);
 
   if (!loaded) {
     return null;

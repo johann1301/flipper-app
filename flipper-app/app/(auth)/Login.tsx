@@ -3,12 +3,27 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, ActivityInd
 import Colors from '@/constants/Colors';
 import { Link } from 'expo-router';
 import logo from '@/assets/images/Logo.png';
+import { FLIPPER_AUTH } from '../../firebaseConfig'; 
+import { signInWithEmailAndPassword } from 'firebase/auth'; 
 
 const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const auth = FLIPPER_AUTH;
+
+  const handleSignin = async () => {
+    setLoading(true);
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      alert('Login successful ' + response.message);
+    } catch (error) {
+      alert('Login failed ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -50,13 +65,11 @@ const Login = () => {
                 <Text style={styles.link}>Forgot Password?</Text>
               </Text>
             </TouchableOpacity>
-
-            <Link href={'/inside'} asChild>
-              <TouchableOpacity style={styles.button} >
+  
+              <TouchableOpacity style={styles.button} onPress={handleSignin} >
                 <Text style={styles.buttonText}>Login</Text>
               </TouchableOpacity>
-            </Link>
-
+            
             <Link href={'/Signup'} asChild>
               <TouchableOpacity>
                 <Text style={styles.description}>
