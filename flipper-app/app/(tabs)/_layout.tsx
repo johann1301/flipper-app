@@ -1,4 +1,4 @@
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { Gesture, GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -12,7 +12,7 @@ const Layout = () => {
                 options={{
                     title: 'Chats',
                     tabBarIcon: ({ color, size }) => (
-                        <MaterialIcons name="chat" color={color} size={size} />
+                        <Ionicons name="chatbubbles" color={color} size={size} />
                     ),
                 }} 
             />

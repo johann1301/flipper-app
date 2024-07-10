@@ -1,9 +1,13 @@
+// RootLayout.js
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { router, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+
+// Hardcoded user variable for testing
+const user = false;
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -31,7 +35,11 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
-      router.replace('(tabs)/Home');
+      if (user) {
+        router.replace('/(tabs)/Home');
+      } else {
+        router.replace('/(auth)/Login');
+      }
     }
   }, [loaded]);
 
@@ -44,9 +52,8 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <Stack>
-      <Stack.Screen name="Login" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    <Stack screenOptions={{ headerShown: false }}>
+      {/* Define your screens here if needed */}
     </Stack>
   );
 }
